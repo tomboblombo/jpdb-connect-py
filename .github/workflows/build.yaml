@@ -65,6 +65,10 @@ jobs:
         run: |
           pyinstaller --onefile --add-binary "ffmpeg${{ runner.os == 'Windows' && '.exe' || '' }}:." jpdb_connect.py
 
+      - name: Rename binary
+        run: |
+          mv dist/jpdb_connect${{ runner.os == 'Windows' && '.exe' || '' }} dist/jpdb_connect-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}${{ runner.os == 'Windows' && '.exe' || '' }}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
