@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
       
 permissions:
   contents: write
@@ -12,7 +13,13 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-x64, linux-x64, macos-arm64]
+          include:
+            - os: windows-latest
+              label: windows-x64
+            - os: ubuntu-latest
+              label: linux-x64
+            - os: macos-latest
+              label: macos-arm64
 
     runs-on: ${{ matrix.os }}
 
@@ -35,7 +42,7 @@ jobs:
       # ----------------------------
 
       - name: Download ffmpeg (Windows)
-        if: matrix.os == 'windows-x64'
+        if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
           Invoke-WebRequest -Uri https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip -OutFile ffmpeg.zip
@@ -43,7 +50,7 @@ jobs:
           Move-Item ffmpeg-*/bin/ffmpeg.exe ffmpeg.exe
 
       - name: Download ffmpeg (Linux)
-        if: matrix.os == 'linux-x64'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           curl -L -o ffmpeg.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
           tar -xf ffmpeg.tar.xz
@@ -51,7 +58,7 @@ jobs:
           chmod +x ffmpeg
 
       - name: Download ffmpeg (macOS)
-        if: matrix.os == 'macos-arm64'
+        if: matrix.os == 'macos-latest'
         run: |
           curl -L -o ffmpeg.zip https://evermeet.cx/ffmpeg/getrelease/zip
           unzip ffmpeg.zip
@@ -67,7 +74,7 @@ jobs:
 
       - name: Rename binary
         run: |
-          mv dist/jpdb_connect${{ runner.os == 'Windows' && '.exe' || '' }} dist/jpdb_connect-${{ github.ref_name }}-${{ matrix.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
+          mv dist/jpdb_connect${{ runner.os == 'Windows' && '.exe' || '' }} dist/jpdb_connect_${{ github.ref_name }}_${{ matrix.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
