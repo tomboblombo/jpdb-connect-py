@@ -55,6 +55,11 @@ jobs:
           unzip ffmpeg.zip
           chmod +x ffmpeg
 
+      - name: Print file structure
+        run: |
+          pwd
+          ls -la
+
       # ----------------------------
       # Build with PyInstaller
       # ----------------------------
