@@ -63,9 +63,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile \
-            --add-binary "ffmpeg${{ runner.os == 'Windows' && '.exe' || '' }}:." \
-            jpdb_connect.py
+          pyinstaller --onefile --add-binary "ffmpeg${{ runner.os == 'Windows' && '.exe' || '' }}:." jpdb_connect.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
