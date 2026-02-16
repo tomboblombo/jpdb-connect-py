@@ -1,5 +1,4 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-# from unittest import case
 from PIL import Image
 import base64
 import io
@@ -7,6 +6,7 @@ import json
 import os
 import requests
 import subprocess
+import sys
 import tempfile
 import traceback
 
@@ -383,7 +383,7 @@ class AnkiConnectHandler(BaseHTTPRequestHandler):
         try:
             # Encode to opus, aggressively small
             cmd = [
-                "ffmpeg",
+                get_ffmpeg_path(),
                 "-y",
                 "-i", temp_in_path,
                 "-c:a", "libopus",
@@ -437,6 +437,23 @@ def load_or_prompt_api_key():
 
     print("API key saved for future sessions.")
     return key
+
+def get_ffmpeg_path():
+    exe_name = "ffmpeg.exe" if os.name == "nt" else "ffmpeg"
+
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+        path = os.path.join(base_path, exe_name)
+        if os.path.exists(path):
+            return path
+    else:
+        base_path = os.path.dirname(__file__)
+        path = os.path.join(base_path, exe_name)
+        if os.path.exists(path):
+            return path
+
+    # fallback to system
+    return exe_name
 
 # -------------------------
 # Start server
