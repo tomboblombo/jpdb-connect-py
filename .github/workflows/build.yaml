@@ -15,11 +15,11 @@ jobs:
       matrix:
           include:
             - os: windows-latest
-              label: windows-x64
+              label: windows_x64
             - os: ubuntu-latest
-              label: linux-x64
+              label: linux_x64
             - os: macos-latest
-              label: macos-arm64
+              label: macos_arm64
 
     runs-on: ${{ matrix.os }}
 
@@ -74,7 +74,7 @@ jobs:
 
       - name: Rename binary
         run: |
-          mv dist/jpdb_connect${{ runner.os == 'Windows' && '.exe' || '' }} dist/jpdb_connect_${{ github.ref_name }}_${{ matrix.os }}${{ runner.os == 'Windows' && '.exe' || '' }}
+          mv dist/jpdb_connect${{ runner.os == 'Windows' && '.exe' || '' }} dist/jpdb_connect_${{ github.ref_name }}_${{ matrix.label }}${{ runner.os == 'Windows' && '.exe' || '' }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

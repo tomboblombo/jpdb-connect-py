@@ -1,6 +1,6 @@
 # About This Project
 
-JPDB Connect Py is essentially the same as the various [other](https://github.com/kampffrosch94/jpdb-connect) JPDB Connect projects that have existed, but my goals in creating it were unique in two ways.
+This project (jpdb-connect-py) is essentially the same as the [various](https://github.com/kampffrosch94/jpdb-connect) [other](https://github.com/Dorifor/jpdb-connect-android) JPDB Connect projects that have existed, but my goals in creating it were unique in two ways.
 - First, I wanted the project to be easily distributable in the form of executables.
 - Second, I wanted to leverage the [undocumented image and audio upload endpoints](https://discord.com/channels/799891866924875786/833939726078967808/1424485929858498581) to make use of tools like [asbplayer](https://github.com/killergerbah/asbplayer) to their full extent.
 
